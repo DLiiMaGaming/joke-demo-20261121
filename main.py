@@ -33,6 +33,9 @@ def main() -> None:
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
     text = ENTRY_TEXT
+    # Gate guards: one line, no leading/trailing blank, 1-280 characters.
+    if "\n" in text or text != text.strip():
+        raise SystemExit("entry text must be a single non-blank line")
     if not (1 <= len(text) <= 280) or not text.strip():
         raise SystemExit("entry text must be 1-280 non-blank characters")
     path = os.path.join(out_dir, "entry.txt")
